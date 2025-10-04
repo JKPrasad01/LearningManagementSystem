@@ -1,7 +1,6 @@
 package com.example.LearningManagementSystem.config;
 
 import com.example.LearningManagementSystem.enums.Role;
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

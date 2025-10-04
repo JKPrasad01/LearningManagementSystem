@@ -20,4 +20,5 @@ public class AuthService implements UserDetailsService {
         return new AuthUser(user.getUsername(),user.getPassword(),user.getRole());
 
     }
+
 }
