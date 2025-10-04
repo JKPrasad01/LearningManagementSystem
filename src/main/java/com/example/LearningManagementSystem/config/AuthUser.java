@@ -24,6 +24,7 @@ public class AuthUser implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority(role.name()));
     }
 
+
     @Override
     public  boolean isAccountNonExpired() {
         return true;
