@@ -1,6 +1,6 @@
 package com.example.LearningManagementSystem.dto;
 
-import com.example.LearningManagementSystem.enums.ROLE;
+import com.example.LearningManagementSystem.enums.Role;
 import lombok.Data;
 
 @Data
@@ -9,5 +9,5 @@ public class UserDTO {
     private String username;
     private String email;
     private String contact;
-    private ROLE role;
+    private Role role;
 }

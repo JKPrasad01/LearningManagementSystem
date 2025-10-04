@@ -1,7 +1,6 @@
 package com.example.LearningManagementSystem.enums;
 
-public enum ROLE {
-
+public enum Role {
     USER,
     ADMIN
 }

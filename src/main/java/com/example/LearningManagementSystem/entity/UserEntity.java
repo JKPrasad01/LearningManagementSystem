@@ -1,9 +1,12 @@
 package com.example.LearningManagementSystem.entity;
 
 
-import com.example.LearningManagementSystem.enums.ROLE;
+import com.example.LearningManagementSystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,6 +28,12 @@ public class UserEntity {
     private String contact;
 
     @Enumerated(EnumType.STRING)
-    private ROLE role;
+    private Role role;
 
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @CreationTimestamp
+    private LocalDateTime updatedAt;
 }
