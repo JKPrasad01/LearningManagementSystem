@@ -1,7 +1,6 @@
 package com.example.LearningManagementSystem.config;
 
 
-import com.example.LearningManagementSystem.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +28,7 @@ public class SecurityConfig {
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/users/**").permitAll()
+                        .requestMatchers("/api/users/sign-up","/api/users/log-in").permitAll()
                         .requestMatchers("/api/courses/**").permitAll()
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated())

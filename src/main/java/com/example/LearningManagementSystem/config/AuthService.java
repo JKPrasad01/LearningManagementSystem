@@ -1,6 +1,7 @@
 package com.example.LearningManagementSystem.config;
 
 import com.example.LearningManagementSystem.entity.UserEntity;
+import com.example.LearningManagementSystem.exception.UserDetailsNotFoundException;
 import com.example.LearningManagementSystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ public class AuthService implements UserDetailsService {
         UserEntity user = userRepository.findByUsername(data)
                 .or(() -> userRepository.findByEmail(data))
                 .or(() -> userRepository.findByContact(data))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username/email/contact: " + data));
+                .orElseThrow(() -> new UserDetailsNotFoundException("User not found with username/email/contact: " + data));
         return new AuthUser(user.getUsername(), user.getPassword(), user.getRole());
     }
 }

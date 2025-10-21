@@ -64,9 +64,14 @@ public class UserServiceImpl implements UserService {
             throw new UserDetailsNotFoundException("Password is required");
         }
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())
-        );
+       try{
+           authenticationManager.authenticate(
+                   new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword())
+           );
+       }
+       catch (Exception e){
+           throw new UserDetailsNotFoundException("bad credentials");
+       }
 
         final UserDetails userDetails = authService.loadUserByUsername(loginRequest.getUserName());
 

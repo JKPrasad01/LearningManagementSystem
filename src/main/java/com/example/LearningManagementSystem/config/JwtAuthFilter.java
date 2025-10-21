@@ -1,7 +1,6 @@
-package com.example.LearningManagementSystem;
+package com.example.LearningManagementSystem.config;
 
-import com.example.LearningManagementSystem.config.AuthService;
-import com.example.LearningManagementSystem.config.JwtUtil;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
