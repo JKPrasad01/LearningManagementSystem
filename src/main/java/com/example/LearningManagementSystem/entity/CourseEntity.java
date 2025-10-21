@@ -39,7 +39,7 @@ public class CourseEntity {
     private LocalDateTime updateAt;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Chapter> chapters;
+    private List<Modules> modules;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Enrollment> enrollments;

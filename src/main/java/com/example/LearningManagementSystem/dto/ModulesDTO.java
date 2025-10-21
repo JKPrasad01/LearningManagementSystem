@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ChapterDto {
+public class ModulesDTO {
     private Long chapterId;
     private String title;
     private Integer orderNumber;

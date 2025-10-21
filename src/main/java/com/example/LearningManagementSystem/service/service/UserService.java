@@ -1,5 +1,7 @@
 package com.example.LearningManagementSystem.service.service;
 
+import com.example.LearningManagementSystem.dto.LoginRequest;
+import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
 import com.example.LearningManagementSystem.entity.UserEntity;
 
@@ -13,4 +15,8 @@ public interface UserService {
     UserDTO getUserByEmail(String email);
     UserDTO updateUser(Long id, UserEntity userDetails);
     void deleteUser(Long id);
+
+    String signUpUser(SignUpRequest newUser);
+
+    String logInUser(LoginRequest loginRequest);
 }

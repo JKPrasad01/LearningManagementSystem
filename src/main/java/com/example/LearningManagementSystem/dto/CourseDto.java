@@ -16,7 +16,7 @@ public class CourseDto {
     private Double price;
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
-    private List<ChapterDto> chapters;
+    private List<ModulesDTO> chapters;
     private List<EnrollmentDto> enrollments;
     private List<ReviewDto> reviews;
 }

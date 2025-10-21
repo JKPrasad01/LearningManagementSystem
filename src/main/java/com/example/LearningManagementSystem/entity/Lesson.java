@@ -22,5 +22,5 @@ public class Lesson {
 
     @ManyToOne
     @JoinColumn(name = "chapter_id")
-    private Chapter chapter;
+    private Modules modules;
 }

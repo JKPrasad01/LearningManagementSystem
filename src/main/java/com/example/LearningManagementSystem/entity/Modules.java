@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Chapter {
+public class Modules {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
