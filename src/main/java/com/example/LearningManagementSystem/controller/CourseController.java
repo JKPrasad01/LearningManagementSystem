@@ -2,6 +2,7 @@ package com.example.LearningManagementSystem.controller;
 
 import com.example.LearningManagementSystem.dto.CourseDto;
 import com.example.LearningManagementSystem.service.service.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
+    public ResponseEntity<CourseDto> createCourse(@RequestBody @Valid CourseDto courseDto) {
         return ResponseEntity.ok(courseService.createCourse(courseDto));
     }
 

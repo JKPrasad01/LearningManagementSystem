@@ -14,7 +14,7 @@ public class Lesson {
     @Column(nullable = false)
     private String title;
 
-    private String contentUrl;   // Could be video link, PDF, etc.
+    private String content;   // Could be video link, PDF, etc.
 
     private String pdf;
 
