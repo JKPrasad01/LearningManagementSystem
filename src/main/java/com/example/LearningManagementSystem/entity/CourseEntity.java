@@ -2,6 +2,7 @@ package com.example.LearningManagementSystem.entity;
 
 
 import com.example.LearningManagementSystem.enums.CourseLevel;
+import com.example.LearningManagementSystem.enums.CourseStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,13 +39,18 @@ public class CourseEntity {
     @CreationTimestamp
     private LocalDateTime updateAt;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Chapter> chapters;
+    @JoinColumn(name = "course_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Modules> modules;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Review> reviews;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CourseStatus courseStatus;
 
 }

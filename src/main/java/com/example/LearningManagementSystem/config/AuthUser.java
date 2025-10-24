@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class AuthUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return Collections.singleton(new SimpleGrantedAuthority(role.name()));
     }
+
 
     @Override
     public  boolean isAccountNonExpired() {

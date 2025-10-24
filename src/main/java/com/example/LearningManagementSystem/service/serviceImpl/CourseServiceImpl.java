@@ -54,6 +54,7 @@ public class CourseServiceImpl implements CourseService {
         courseEntity.setCategory(courseDto.getCategory());
         courseEntity.setCourseLevel(courseDto.getCourseLevel());
         courseEntity.setPrice(courseDto.getPrice());
+        courseEntity.setCourseStatus(courseDto.getCourseStatus());
 
         CourseEntity updatedCourse = courseRepository.save(courseEntity);
         return modelMapper.map(updatedCourse, CourseDto.class);

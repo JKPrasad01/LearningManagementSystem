@@ -1,5 +1,7 @@
 package com.example.LearningManagementSystem.controller;
 
+import com.example.LearningManagementSystem.dto.LoginRequest;
+import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.service.service.UserService;
@@ -14,6 +16,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<String> signUpUser(@RequestBody SignUpRequest newUser){
+       String data= userService.signUpUser(newUser);
+       return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("/log-in")
+    public ResponseEntity<String> logInUSer(@RequestBody LoginRequest loginRequest){
+       String token =  userService.logInUser(loginRequest);
+       return ResponseEntity.ok(token);
+    }
+
 
 
     @PostMapping
