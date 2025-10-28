@@ -70,15 +70,9 @@ public class UserServiceImpl implements UserService {
            );
        }
        catch (Exception e){
-           throw new UserDetailsNotFoundException("bad credentials");
+           throw new UserDetailsNotFoundException("Invalid username or password");
        }
-
         final UserDetails userDetails = authService.loadUserByUsername(loginRequest.getUserName());
-
-        if (!passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
-            throw new UserDetailsNotFoundException("Invalid credentials");
-        }
-
         return jwtUtil.generateToken(userDetails);
     }
 

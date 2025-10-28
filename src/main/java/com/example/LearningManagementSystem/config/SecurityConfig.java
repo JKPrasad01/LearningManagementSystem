@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/users/sign-up","/api/users/log-in").permitAll()
                         .requestMatchers("/api/courses/**").permitAll()
+                        .requestMatchers("/api/courses/payment/*").permitAll()
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
