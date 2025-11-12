@@ -12,18 +12,23 @@ import com.example.LearningManagementSystem.exception.UserDetailsNotFoundExcepti
 import com.example.LearningManagementSystem.repository.UserRepository;
 import com.example.LearningManagementSystem.service.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 
+import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String logInUser(LoginRequest loginRequest) {
+    public String logInUser(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
         if (loginRequest.getUserName() == null || loginRequest.getUserName().trim().isEmpty()) {
             throw new UserDetailsNotFoundException("Username or email or contact is required");
         }
@@ -64,22 +69,22 @@ public class UserServiceImpl implements UserService {
             throw new UserDetailsNotFoundException("Password is required");
         }
 
-       try{
-           authenticationManager.authenticate(
+           Authentication auth =authenticationManager.authenticate(
                    new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword())
            );
-       }
-       catch (Exception e){
-           throw new UserDetailsNotFoundException("bad credentials");
-       }
 
-        final UserDetails userDetails = authService.loadUserByUsername(loginRequest.getUserName());
+           UserDetails userDetails=(UserDetails)auth.getPrincipal();
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
-            throw new UserDetailsNotFoundException("Invalid credentials");
-        }
+        String authToken=jwtUtil.generateToken(userDetails);
+        Cookie cookie=new Cookie("authToken",authToken);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setMaxAge(60*60);
+        cookie.setPath("/");
 
-        return jwtUtil.generateToken(userDetails);
+        httpServletResponse.addCookie(cookie);
+
+        return "login successful";
     }
 
 

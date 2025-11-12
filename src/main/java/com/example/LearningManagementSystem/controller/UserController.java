@@ -5,6 +5,7 @@ import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.service.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class UserController {
     }
 
     @PostMapping("/log-in")
-    public ResponseEntity<String> logInUSer(@RequestBody LoginRequest loginRequest){
-       String token =  userService.logInUser(loginRequest);
+    public ResponseEntity<String> logInUSer(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse){
+       String token =  userService.logInUser(loginRequest,httpServletResponse);
        return ResponseEntity.ok(token);
     }
 

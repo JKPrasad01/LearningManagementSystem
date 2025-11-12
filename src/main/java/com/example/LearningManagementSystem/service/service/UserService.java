@@ -4,6 +4,7 @@ import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
 import com.example.LearningManagementSystem.entity.UserEntity;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,5 +19,5 @@ public interface UserService {
 
     String signUpUser(SignUpRequest newUser);
 
-    String logInUser(LoginRequest loginRequest);
+    String logInUser(LoginRequest loginRequestloginRequest, HttpServletResponse httpServletResponse);
 }
