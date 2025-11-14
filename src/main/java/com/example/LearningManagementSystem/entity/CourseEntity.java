@@ -3,9 +3,11 @@ package com.example.LearningManagementSystem.entity;
 
 import com.example.LearningManagementSystem.enums.CourseLevel;
 import com.example.LearningManagementSystem.enums.CourseStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,21 +38,29 @@ public class CourseEntity {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime updateAt;
 
-    @JoinColumn(name = "course_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Modules> modules;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Review> reviews;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CourseStatus courseStatus;
+
+
+    @OneToOne(mappedBy = "course" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Certification certification;
 
 }

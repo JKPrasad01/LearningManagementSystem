@@ -1,5 +1,6 @@
 package com.example.LearningManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class Lesson {
     private Integer orderNumber;
 
     @ManyToOne
-    @JoinColumn(name = "chapter_id")
+    @JoinColumn(name = "module_id")
+    @JsonBackReference
     private Modules modules;
 }

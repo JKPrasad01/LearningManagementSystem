@@ -17,9 +17,9 @@ import java.util.function.Function;
 @Component
 
 public class JwtUtil {
-    private final String SECRET_KEY = "pP5gZQ6q1bVwU8T7x2L9kQ0r4mN8vY3sD6hJ2lF5tH0="; // 256-bit key
+    private static final String SECRET_KEY = "pP5gZQ6q1bVwU8T7x2L9kQ0r4mN8vY3sD6hJ2lF5tH0="; // 256-bit key
     // move to env var
-    private final long EXPIRATION = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
 
 
 

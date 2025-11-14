@@ -1,5 +1,6 @@
 package com.example.LearningManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,15 +15,13 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonBackReference
     private CourseEntity course;
 
-    private Integer rating;   // 1–5
+    private Integer rating;
 
     private String comment;
 
