@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String logInUser(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
-        if (loginRequest.getUserName() == null || loginRequest.getUserName().trim().isEmpty()) {
+        if (loginRequest.getUsername() == null || loginRequest.getUsername().trim().isEmpty()) {
             throw new UserDetailsNotFoundException("Username or email or contact is required");
         }
 
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         }
 
            Authentication auth =authenticationManager.authenticate(
-                   new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword())
+                   new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
            );
 
            UserDetails userDetails=(UserDetails)auth.getPrincipal();
