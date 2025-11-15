@@ -3,7 +3,6 @@ package com.example.LearningManagementSystem.config.oAuth;
 
 import com.example.LearningManagementSystem.config.AuthUser;
 import com.example.LearningManagementSystem.config.JwtUtil;
-
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.enums.Role;
 import com.example.LearningManagementSystem.repository.UserRepository;
@@ -13,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -62,8 +61,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         accessCookie.setSecure(false);
         accessCookie.setMaxAge(15*60);
 
-
-        Cookie refreshCookie=new Cookie("refreshTOken",refreshToken);
+        Cookie refreshCookie=new Cookie("refreshToken",refreshToken);
         refreshCookie.setHttpOnly(true);
         refreshCookie.setSecure(false);
         refreshCookie.setPath("/");
