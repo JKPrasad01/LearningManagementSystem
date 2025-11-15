@@ -7,11 +7,13 @@ import com.example.LearningManagementSystem.service.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +32,10 @@ public class AuthController {
 
 
     @PostMapping("/sign-up")
-    public ResponseEntity<String> signUpUser(@RequestBody SignUpRequest newUser){
-        String data= userService.signUpUser(newUser);
-        return ResponseEntity.ok(data);
+    public ResponseEntity<String> signUpUser(@RequestBody @Validated SignUpRequest newUser) {
+        String data = userService.signUpUser(newUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
-
-    @PostMapping("/log-in")
-    public ResponseEntity<Map<String,Object>> logInUSer(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse){
-        Map<String,Object> response =  userService.logInUser(loginRequest,httpServletResponse);
-        return ResponseEntity.ok(response);
-    }
-
 
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response){
