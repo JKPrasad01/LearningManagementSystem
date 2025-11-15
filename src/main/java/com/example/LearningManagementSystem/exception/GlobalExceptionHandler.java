@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handlerForUserDetailsNotFoundException(UserDetailsNotFoundException userDetailsNotFoundException){
         ErrorResponse response=new ErrorResponse();
         response.setMessage(userDetailsNotFoundException.getMessage());
-        response.setStatus(HttpStatus.NOT_FOUND);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        response.setStatus(UserDetailsNotFoundException.status);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

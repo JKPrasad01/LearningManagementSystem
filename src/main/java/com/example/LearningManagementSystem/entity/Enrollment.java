@@ -1,5 +1,6 @@
 package com.example.LearningManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,14 +17,16 @@ public class Enrollment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private CourseEntity course;
 
     @CreationTimestamp
     private LocalDateTime enrolledAt;
 
     private Integer progress;  // percentage of completion
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    @JsonBackReference
+    private CourseEntity course;
 }

@@ -1,6 +1,7 @@
 package com.example.LearningManagementSystem.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,15 +22,21 @@ public class Certification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long certificationId;
 
-    @Column(nullable = false,unique = true)
-    private Long userId;
 
-    @Column(nullable = false,updatable = false)
-    private Long courseId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private UserEntity user;
+
 
     @CreationTimestamp
     private LocalDateTime issuedDate;
 
     private String certificationURL;
+
+    @OneToOne
+    @JoinColumn(name = "course_id")
+    @JsonBackReference
+    private CourseEntity course;
 
 }

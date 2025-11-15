@@ -2,14 +2,12 @@ package com.example.LearningManagementSystem.config;
 
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,9 +17,9 @@ import java.util.function.Function;
 @Component
 
 public class JwtUtil {
-    private final String SECRET_KEY = "pP5gZQ6q1bVwU8T7x2L9kQ0r4mN8vY3sD6hJ2lF5tH0="; // 256-bit key
+    private static final String SECRET_KEY = "pP5gZQ6q1bVwU8T7x2L9kQ0r4mN8vY3sD6hJ2lF5tH0="; // 256-bit key
     // move to env var
-    private final long EXPIRATION = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
 
 
 
@@ -56,6 +54,15 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
+
+    public String generateRefreshToken(UserDetails userDetails){
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+ 7L * 24 * 60 * 60 * 1000))
+                .signWith(getSighInKey(),SignatureAlgorithm.HS256)
+                .compact();
+    }
 
     public String generateToken(UserDetails userDetails){
         return createToken(new HashMap<>(),userDetails);

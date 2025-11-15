@@ -12,19 +12,28 @@ import com.example.LearningManagementSystem.exception.UserDetailsNotFoundExcepti
 import com.example.LearningManagementSystem.repository.UserRepository;
 import com.example.LearningManagementSystem.service.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 
+import org.springframework.http.HttpCookie;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -43,7 +52,7 @@ public class UserServiceImpl implements UserService {
        boolean found=userRepository.existsByEmail(newUser.getEmail());
 
        if(found){
-           throw new UserDetailsNotFoundException("User email are already exists " + newUser.getEmail());
+           throw new UserDetailsNotFoundException("User email are already exists " + newUser.getEmail(), HttpStatus.CONFLICT);
        }
         UserEntity user=new UserEntity();
         user.setUsername(newUser.getUsername());
@@ -55,25 +64,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String logInUser(LoginRequest loginRequest) {
-        if (loginRequest.getUserName() == null || loginRequest.getUserName().trim().isEmpty()) {
-            throw new UserDetailsNotFoundException("Username or email or contact is required");
+    public Map<String,Object> logInUser(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
+        if (loginRequest.getUsername() == null || loginRequest.getUsername().trim().isEmpty()) {
+            throw new UserDetailsNotFoundException("Username or email or contact is required",HttpStatus.NOT_FOUND);
         }
 
         if (loginRequest.getPassword() == null || loginRequest.getPassword().trim().isEmpty()) {
-            throw new UserDetailsNotFoundException("Password is required");
+            throw new UserDetailsNotFoundException("Password is required",HttpStatus.NOT_FOUND);
         }
 
-       try{
-           authenticationManager.authenticate(
-                   new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword())
-           );
-       }
-       catch (Exception e){
-           throw new UserDetailsNotFoundException("Invalid username or password");
-       }
-        final UserDetails userDetails = authService.loadUserByUsername(loginRequest.getUserName());
-        return jwtUtil.generateToken(userDetails);
+        UserEntity user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(()->new UsernameNotFoundException("user not found by : "+loginRequest.getUsername()));
+
+        if(!passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())){
+            throw new UserDetailsNotFoundException("Invalid Password",HttpStatus.NOT_FOUND);
+        }
+
+
+           UserDetails userDetails= AuthUser.builder()
+                   .username(user.getUsername())
+                   .role(user.getRole())
+                   .build();
+
+
+        String authToken=jwtUtil.generateToken(userDetails);
+        String refreshToken= jwtUtil.generateRefreshToken(userDetails);
+
+        Cookie authCookie=new Cookie("accessToken",authToken);
+        authCookie.setHttpOnly(true);
+        authCookie.setSecure(false);
+        authCookie.setMaxAge(15*60);
+        authCookie.setPath("/");
+
+        Cookie refreshCookie=new Cookie("refreshToken",refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(false);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge(7 * 24 * 60 * 60);
+
+        httpServletResponse.addCookie(authCookie);
+        httpServletResponse.addCookie(refreshCookie);
+
+        Map<String,Object> res=new HashMap<>();
+        res.put("user",userDetails);
+
+        return res;
     }
 
 

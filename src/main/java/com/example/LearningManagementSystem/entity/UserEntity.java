@@ -2,11 +2,13 @@ package com.example.LearningManagementSystem.entity;
 
 
 import com.example.LearningManagementSystem.enums.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -36,4 +38,8 @@ public class UserEntity {
 
     @CreationTimestamp
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Enrollment> enrollment;
 }
