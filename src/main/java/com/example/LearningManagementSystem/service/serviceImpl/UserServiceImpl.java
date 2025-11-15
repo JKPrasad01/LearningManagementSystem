@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.http.HttpCookie;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +31,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
        boolean found=userRepository.existsByEmail(newUser.getEmail());
 
        if(found){
-           throw new UserDetailsNotFoundException("User email are already exists " + newUser.getEmail());
+           throw new UserDetailsNotFoundException("User email are already exists " + newUser.getEmail(), HttpStatus.CONFLICT);
        }
         UserEntity user=new UserEntity();
         user.setUsername(newUser.getUsername());
@@ -60,31 +64,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String logInUser(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
+    public Map<String,Object> logInUser(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
         if (loginRequest.getUsername() == null || loginRequest.getUsername().trim().isEmpty()) {
-            throw new UserDetailsNotFoundException("Username or email or contact is required");
+            throw new UserDetailsNotFoundException("Username or email or contact is required",HttpStatus.NOT_FOUND);
         }
 
         if (loginRequest.getPassword() == null || loginRequest.getPassword().trim().isEmpty()) {
-            throw new UserDetailsNotFoundException("Password is required");
+            throw new UserDetailsNotFoundException("Password is required",HttpStatus.NOT_FOUND);
         }
 
-           Authentication auth =authenticationManager.authenticate(
-                   new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
-           );
+        UserEntity user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(()->new UsernameNotFoundException("user not found by : "+loginRequest.getUsername()));
 
-           UserDetails userDetails=(UserDetails)auth.getPrincipal();
+        if(!passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())){
+            throw new UserDetailsNotFoundException("Invalid Password",HttpStatus.NOT_FOUND);
+        }
+
+
+           UserDetails userDetails= AuthUser.builder()
+                   .username(user.getUsername())
+                   .role(user.getRole())
+                   .build();
+
 
         String authToken=jwtUtil.generateToken(userDetails);
-        Cookie cookie=new Cookie("authToken",authToken);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setMaxAge(60*60);
-        cookie.setPath("/");
+        String refreshToken= jwtUtil.generateRefreshToken(userDetails);
 
-        httpServletResponse.addCookie(cookie);
+        Cookie authCookie=new Cookie("accessToken",authToken);
+        authCookie.setHttpOnly(true);
+        authCookie.setSecure(false);
+        authCookie.setMaxAge(15*60);
+        authCookie.setPath("/");
 
-        return "login successful";
+        Cookie refreshCookie=new Cookie("refreshToken",refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(false);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge(7 * 24 * 60 * 60);
+
+        httpServletResponse.addCookie(authCookie);
+        httpServletResponse.addCookie(refreshCookie);
+
+        Map<String,Object> res=new HashMap<>();
+        res.put("user",userDetails);
+
+        return res;
     }
 
 

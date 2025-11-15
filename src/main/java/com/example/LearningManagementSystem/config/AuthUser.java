@@ -1,7 +1,9 @@
 package com.example.LearningManagementSystem.config;
 
 import com.example.LearningManagementSystem.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,8 +17,10 @@ import java.util.Collections;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AuthUser implements UserDetails {
     private String username;
+    @JsonIgnore
     private String password;
     private Role role;
 

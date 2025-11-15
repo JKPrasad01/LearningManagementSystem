@@ -12,24 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    @PostMapping("/sign-up")
-    public ResponseEntity<String> signUpUser(@RequestBody SignUpRequest newUser){
-       String data= userService.signUpUser(newUser);
-       return ResponseEntity.ok(data);
-    }
-
-    @PostMapping("/log-in")
-    public ResponseEntity<String> logInUSer(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse){
-       String token =  userService.logInUser(loginRequest,httpServletResponse);
-       return ResponseEntity.ok(token);
-    }
-
 
 
     @PostMapping

@@ -7,6 +7,7 @@ import com.example.LearningManagementSystem.entity.UserEntity;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
@@ -19,5 +20,5 @@ public interface UserService {
 
     String signUpUser(SignUpRequest newUser);
 
-    String logInUser(LoginRequest loginRequestloginRequest, HttpServletResponse httpServletResponse);
+    Map<String,Object> logInUser(LoginRequest loginRequestloginRequest, HttpServletResponse httpServletResponse);
 }

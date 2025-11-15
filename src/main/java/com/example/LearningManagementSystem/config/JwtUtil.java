@@ -55,6 +55,15 @@ public class JwtUtil {
     }
 
 
+    public String generateRefreshToken(UserDetails userDetails){
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+ 7L * 24 * 60 * 60 * 1000))
+                .signWith(getSighInKey(),SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public String generateToken(UserDetails userDetails){
         return createToken(new HashMap<>(),userDetails);
     }
