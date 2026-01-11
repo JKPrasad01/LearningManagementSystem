@@ -25,7 +25,7 @@ public class Modules {
     @JsonManagedReference
     private List<Lesson> lessons;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     @JsonBackReference
     private CourseEntity course;
