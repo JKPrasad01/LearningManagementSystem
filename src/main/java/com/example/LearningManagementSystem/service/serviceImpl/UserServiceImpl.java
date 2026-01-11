@@ -1,7 +1,6 @@
 package com.example.LearningManagementSystem.service.serviceImpl;
 
 import com.example.LearningManagementSystem.config.AuthService;
-import com.example.LearningManagementSystem.config.AuthUser;
 import com.example.LearningManagementSystem.config.JwtUtil;
 import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
@@ -11,7 +10,6 @@ import com.example.LearningManagementSystem.enums.Role;
 import com.example.LearningManagementSystem.exception.UserDetailsNotFoundException;
 import com.example.LearningManagementSystem.repository.UserRepository;
 import com.example.LearningManagementSystem.service.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

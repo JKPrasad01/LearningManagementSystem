@@ -28,6 +28,7 @@ public class SecurityConfig {
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
+                        .requestMatchers("/actuator/info").permitAll()
                         .requestMatchers("/api/users/sign-up","/api/users/log-in").permitAll()
                         .requestMatchers("/api/courses/**").permitAll()
                         .requestMatchers("/api/courses/payment/*").permitAll()
