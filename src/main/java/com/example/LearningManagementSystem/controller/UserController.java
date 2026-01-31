@@ -3,6 +3,7 @@ package com.example.LearningManagementSystem.controller;
 import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
+import com.example.LearningManagementSystem.dto.UserUpdateRequest;
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.service.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,8 +39,8 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest userUpdateRequest) {
+        return ResponseEntity.ok(userService.updateUser(id, userUpdateRequest));
     }
 
 

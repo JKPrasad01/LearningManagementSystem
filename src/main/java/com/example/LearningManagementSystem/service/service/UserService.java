@@ -3,6 +3,7 @@ package com.example.LearningManagementSystem.service.service;
 import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
+import com.example.LearningManagementSystem.dto.UserUpdateRequest;
 import com.example.LearningManagementSystem.entity.UserEntity;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,7 +16,7 @@ public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO getUserById(Long id);
     UserDTO getUserByEmail(String email);
-    UserDTO updateUser(Long id, UserEntity userDetails);
+    UserDTO updateUser(Long id, UserUpdateRequest userUpdateRequest);
     void deleteUser(Long id);
 
     String signUpUser(SignUpRequest newUser);

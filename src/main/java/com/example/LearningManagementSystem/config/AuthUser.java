@@ -21,7 +21,7 @@ import java.util.Collections;
 public class AuthUser implements UserDetails {
     private String username;
     @JsonIgnore
-    private String password;
+    private  String password;
     private Role role;
 
     @Override

@@ -6,19 +6,16 @@ import com.example.LearningManagementSystem.config.JwtUtil;
 import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
+import com.example.LearningManagementSystem.dto.UserUpdateRequest;
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.enums.Role;
 import com.example.LearningManagementSystem.exception.UserDetailsNotFoundException;
 import com.example.LearningManagementSystem.repository.UserRepository;
 import com.example.LearningManagementSystem.service.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-
 import org.modelmapper.ModelMapper;
-
-import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +66,7 @@ public class UserServiceImpl implements UserService {
             throw new UserDetailsNotFoundException("Username or email or contact is required",HttpStatus.NOT_FOUND);
         }
 
-        if (loginRequest.getPassword() == null || loginRequest.getPassword().trim().isEmpty()) {
+        if (loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
             throw new UserDetailsNotFoundException("Password is required",HttpStatus.NOT_FOUND);
         }
 
@@ -79,11 +76,7 @@ public class UserServiceImpl implements UserService {
             throw new UserDetailsNotFoundException("Invalid Password",HttpStatus.NOT_FOUND);
         }
 
-
-           UserDetails userDetails= AuthUser.builder()
-                   .username(user.getUsername())
-                   .role(user.getRole())
-                   .build();
+        UserDetails userDetails= AuthUser.builder().username(user.getUsername()).role(user.getRole()).build();
 
 
         String authToken=jwtUtil.generateToken(userDetails);
@@ -106,6 +99,8 @@ public class UserServiceImpl implements UserService {
 
         Map<String,Object> res=new HashMap<>();
         res.put("user",userDetails);
+        res.put("accessToken",authToken);
+        res.put("refreshToken",refreshToken);
 
         return res;
     }
@@ -134,13 +129,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(Long id, UserEntity userDetails) {
+    public UserDTO updateUser(Long id, UserUpdateRequest userUpdateRequest) {
         UserEntity entity =userRepository.findById(id).map(user -> {
-            user.setUsername(userDetails.getUsername());
-            user.setEmail(userDetails.getEmail());
-            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-            user.setContact(userDetails.getContact());
-            user.setRole(userDetails.getRole());
+            user.setUsername(userUpdateRequest.getUsername());
+            user.setContact(userUpdateRequest.getContact());
             return userRepository.save(user);
         }).orElseThrow(() -> new UsernameNotFoundException("User not found with id " + id));
 
