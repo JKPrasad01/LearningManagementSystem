@@ -1,8 +1,9 @@
 package com.example.LearningManagementSystem.service.serviceImpl;
 
-import com.example.LearningManagementSystem.config.AuthService;
-import com.example.LearningManagementSystem.config.AuthUser;
-import com.example.LearningManagementSystem.config.JwtUtil;
+import com.example.LearningManagementSystem.authenticate.ApiResponse;
+import com.example.LearningManagementSystem.authenticate.AuthService;
+import com.example.LearningManagementSystem.authenticate.AuthUser;
+import com.example.LearningManagementSystem.utils.JwtUtil;
 import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.dto.UserDTO;
@@ -13,25 +14,20 @@ import com.example.LearningManagementSystem.exception.UserDetailsNotFoundExcepti
 import com.example.LearningManagementSystem.repository.UserRepository;
 import com.example.LearningManagementSystem.service.service.UserService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

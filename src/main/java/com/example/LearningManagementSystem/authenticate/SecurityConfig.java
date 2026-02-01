@@ -1,6 +1,6 @@
-package com.example.LearningManagementSystem.config;
+package com.example.LearningManagementSystem.authenticate;
 
-import com.example.LearningManagementSystem.config.oAuth.OAuth2SuccessHandler;
+import com.example.LearningManagementSystem.authenticate.oAuth.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

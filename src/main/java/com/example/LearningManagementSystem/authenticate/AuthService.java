@@ -1,4 +1,4 @@
-package com.example.LearningManagementSystem.config;
+package com.example.LearningManagementSystem.authenticate;
 
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.exception.UserDetailsNotFoundException;

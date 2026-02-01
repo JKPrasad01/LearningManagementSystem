@@ -1,4 +1,4 @@
-package com.example.LearningManagementSystem.config.oAuth;
+package com.example.LearningManagementSystem.authenticate.oAuth;
 
 
 import org.springframework.security.oauth2.core.user.OAuth2User;

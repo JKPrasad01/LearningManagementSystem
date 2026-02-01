@@ -1,5 +1,6 @@
-package com.example.LearningManagementSystem.config;
+package com.example.LearningManagementSystem.authenticate;
 
+import com.example.LearningManagementSystem.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;

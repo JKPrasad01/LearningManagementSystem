@@ -1,4 +1,4 @@
-package com.example.LearningManagementSystem.config;
+package com.example.LearningManagementSystem.utils;
 
 
 import io.jsonwebtoken.Claims;

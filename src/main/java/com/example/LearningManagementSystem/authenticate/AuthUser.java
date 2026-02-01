@@ -1,4 +1,4 @@
-package com.example.LearningManagementSystem.config;
+package com.example.LearningManagementSystem.authenticate;
 
 import com.example.LearningManagementSystem.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;

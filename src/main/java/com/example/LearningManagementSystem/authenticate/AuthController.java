@@ -1,9 +1,10 @@
-package com.example.LearningManagementSystem.config;
+package com.example.LearningManagementSystem.authenticate;
 
 
 import com.example.LearningManagementSystem.dto.LoginRequest;
 import com.example.LearningManagementSystem.dto.SignUpRequest;
 import com.example.LearningManagementSystem.service.service.UserService;
+import com.example.LearningManagementSystem.utils.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,6 +40,10 @@ public class AuthController {
     public ResponseEntity<Map<String,Object>> logInUSer(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse){
         Map<String,Object> response =  userService.logInUser(loginRequest,httpServletResponse);
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<ApiResponse> authenticateMe(HttpServletRequest httpServletRequest){
+        userService.authenticateMe(httpServletRequest);
     }
 
 

@@ -1,8 +1,8 @@
-package com.example.LearningManagementSystem.config.oAuth;
+package com.example.LearningManagementSystem.authenticate.oAuth;
 
 
-import com.example.LearningManagementSystem.config.AuthUser;
-import com.example.LearningManagementSystem.config.JwtUtil;
+import com.example.LearningManagementSystem.authenticate.AuthUser;
+import com.example.LearningManagementSystem.utils.JwtUtil;
 
 import com.example.LearningManagementSystem.entity.UserEntity;
 import com.example.LearningManagementSystem.enums.Role;
